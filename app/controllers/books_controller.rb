@@ -10,9 +10,21 @@ class BooksController < ApplicationController
     end
  end
 
-
  def show
+    @reviews =  @book.reviews.order("created_at DESC")
+      @avg_review = 0
+     else
+      @avg_review = @reviews.average(:rating).present? ? @reviews.average(:rating).round(2) : 0
+     end
  end
+
+ #def show
+#   if @book.reviews.blank?
+#      @average_review = 0
+#   else
+#      @average_review = @book.reviews.average(:rating).round(2)
+#   end
+ # end
 
  def new
    @book = current_user.books.build
@@ -46,7 +58,7 @@ end
     @book.destroy
     redirect_to root_path
   end
-end
+
 
 private
 

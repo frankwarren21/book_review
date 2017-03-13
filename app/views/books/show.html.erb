@@ -2,14 +2,20 @@
 
   <div class="col-md-4">
 
-    <%= image_tag @book.book_img.url(:book_show), class: "book-show" %>
+     <%= image_tag @book.book_img.url(:book_show), class: "book-show" %>
 
   </div>
 
-  <div class="col-md-8">
-    <h2><%= @book.title %></h2>
-    <h3><%= @book.author %></h3>
-    <p><%= @book.description %></p>
+      <div class="col-md-8">
+        <h2><%= @book.title %></h2>
+        <h3><%= @book.author %></h3>
+        <h4>Average Review</h4>
+        <div class="average-review-rating" data-score=<%= @avg_review %></div>
+        <span>Based on <%= @book.reviews.count %> reviews</span>
+        <p><%= @book.description %></p>
+
+    </div>
+
   </div>
 
 </div>
@@ -23,8 +29,8 @@
       </div>
 
     <div>
-      <%=link_to "Add Review", new_book_review_path(@book) %>
-    </div>
+      <%= link_to "Add Review", new_book_review_path(@book) %>
+  </div>
 
 
 </div>
@@ -35,8 +41,8 @@
 
   <% if @book.user_id == current_user.id %>
 
-<%= link_to "Edit", edit_book_path(@book) %>
-<%= link_to "Delete", book_path(@book), method: :delete, data: {confirm: "Are you sure?"} %>
+    <%= link_to "Edit", edit_book_path(@book) %>
+    <%= link_to "Delete", book_path(@book), method: :delete, data: {confirm: "Are you sure?"} %>
 
   <% end %>
 
@@ -50,4 +56,14 @@
     },
     path: '/assets/'
     });
+  </script>
+
+  <script>
+  $('.average-review-rating').raty({
+    readOnly: true,
+    path: '/assets/',
+    score: function() {
+        return $(this).attr('data-score');
+    }
+  });
   </script>
