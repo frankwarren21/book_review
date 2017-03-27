@@ -1,4 +1,31 @@
-<h1 class="current-category"><%= params[:category] %></h1>
+<script>
+
+var pressed = []
+var secretCode = 'js'
+
+document.addEventListener('keyup', function(event) {
+    console.log (event.key)
+
+    pressed.push(event.key)
+
+    pressed.splice(-secretCode.length - 1, pressed.length - secretCode.length)
+
+
+  if (pressed.join('').includes(secretCode)) {
+
+    Notification.requestPermission().then(function(status) {
+        if (status === "granted") {
+          new Notification('title - hello world')
+        }
+    })
+   // alert('WOOT')
+  }
+
+   console.log(pressed)
+});
+
+</script>
+
 
 <% if @books.count == 0 %>
   <h1> There are currently no books in this category</h1>
